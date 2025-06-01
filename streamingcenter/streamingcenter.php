@@ -589,10 +589,7 @@ function streamingcenter_ChangePackage(array $params) {
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'PATCH', $postData);
         
         if (!$response['success']) {
-            return [
-                'success' => false,
-                'error' => $response['error'],
-            ];
+            return "Error: " . $response['error'];
         }
         
         logModuleCall('streamingcenter', __FUNCTION__, "success", "success", "success");
@@ -600,10 +597,7 @@ function streamingcenter_ChangePackage(array $params) {
         
     } catch (Exception $e) {
         logModuleCall('streamingcenter', __FUNCTION__, $params, $e->getMessage(), $e->getTraceAsString());
-        return [
-            'success' => false,
-            'error' => $e->getMessage(),
-        ];
+        return "Exception: " . $e->getMessage();
     }
 }
 
@@ -678,10 +672,7 @@ function streamingcenter_TerminateAccount(array $params)
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'POST', $postData);
         
         if (!$response['success']) {
-            return [
-                'success' => false,
-                'error' => $response['error'],
-            ];
+            return "Error: " . $response['error'];
         }
         
         logModuleCall('streamingcenter', __FUNCTION__, "success", "success", "success");
@@ -826,15 +817,9 @@ function streamingcenter_TestConnection(array $params)
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'POST', $postData);
         
         if (!$response['success']) {
-            if (strpos($response['error'], 'ERR: ') === 0) {
-                $error = str_replace('ERR: ', '', $response['error']);
-            } else {
-                $error = $response['error'];
-            }
-            
             return [
                 'success' => false,
-                'error' => $error
+                'error' =>  $response['error']
             ];
         }
         
@@ -867,10 +852,7 @@ function streamingcenter_ChangePassword(array $params) {
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'PATCH', $postData);
         
         if (!$response['success']) {
-            return [
-                'success' => false,
-                'error' => $response['error'],
-            ];
+            return "Error: " . $response['error'];
         }
         
         logModuleCall('streamingcenter', __FUNCTION__, "success", "success", "success");
@@ -878,10 +860,7 @@ function streamingcenter_ChangePassword(array $params) {
         
     } catch (Exception $e) {
         logModuleCall('streamingcenter', __FUNCTION__, $params, $e->getMessage(), $e->getTraceAsString());
-        return [
-            'success' => false,
-            'error' => $e->getMessage(),
-        ];
+        return $e->getMessage();
     }
 }
 ?>
