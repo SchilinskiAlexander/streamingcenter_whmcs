@@ -56,7 +56,7 @@ The module settings allow you to:
 - Set default provisioning parameters  
 - Map WHMCS products to Streaming.Center plans by choosing broadcaster templates that you create in Streaming.Center admin area or setting individual options for each radio account.  
 
-For detailed setup instructions, refer to the [documentation](https://streaming.center/docs)
+For detailed setup instructions, refer to the [documentation](https://streaming.center/docs/system/whmcs/)
 
 ---
 

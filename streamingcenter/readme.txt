@@ -1,1 +1,1 @@
-Documentation is available at: https://streaming.center/docs
+Documentation is available at: https://streaming.center/docs/system/whmcs/
