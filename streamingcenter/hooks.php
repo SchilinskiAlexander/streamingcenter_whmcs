@@ -84,7 +84,6 @@ add_hook('AdminAreaFooterOutput', 1, function($vars) {
 return <<<JAVASCRIPT
 <script>
 jQuery(document).ready(function(){
-    console.log("StreamingCenter: clientsservices page loaded");
     function tweakStreamingInfo() {
         jQuery("[name='username']").attr('readonly','readonly').css("backgroundColor","#eee").css("pointerEvents","none");
         jQuery("[name='server']").attr('readonly','readonly');
@@ -93,9 +92,7 @@ jQuery(document).ready(function(){
 
     tweakStreamingInfo();
     jQuery(document).ajaxComplete(function(event, xhr, settings) {
-        console.log("StreamingCenter: clientsservices page ajax complete");
         if (settings.url.includes('clientsservices.php')) {
-            console.log("StreamingCenter: clientsservices page ajax complete, tweaking info");
             tweakStreamingInfo();
         }
     });

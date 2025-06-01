@@ -357,14 +357,14 @@ function streamingcenter_ListAccounts(array $params) {
 
 function streamingcenter_LoadBroadcasterTemplates($params){
     $endpoint = "/api/v1/remote_get_templates/";
-    
+
     try {
         logModuleCall('streamingcenter', __FUNCTION__, $params, "start", "start");
         
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'POST');
         
         if (!$response['success']) {
-            throw new Exception('Streaming.Center server response: ' . $response['error']);
+            return ['no_template' => 'Error: failed to load templates: ' . $response['error']];
         }
         
         $data = $response['data'];
