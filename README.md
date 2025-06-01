@@ -71,7 +71,7 @@ This WHMCS module is open-source, licensed under the [MIT License](LICENSE).
 ## 📫 Support
 For support with the module, please open an issue on this repository.
 
-For commercial support or questions about Streaming.Center Internet-radio platform, visit (https://streaming.center)[https://streaming.center]
+For commercial support or questions about Streaming.Center Internet-radio platform, visit [https://streaming.center](https://streaming.center)
 
 ## 🌟 Acknowledgments
 This module was developed by Streaming.Center to help WHMCS users integrate smoothly with our streaming platform.
