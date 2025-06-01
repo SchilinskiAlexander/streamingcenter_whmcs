@@ -1,4 +1,4 @@
-# WHMCS Provisioning Module for [Streaming.Center Internet-Radio Control panel]
+# WHMCS Provisioning Module for Streaming.Center Internet-Radio Control panel
 
 This is an **open-source WHMCS provisioning module** that integrates with the commercial, closed-source software (**Streaming.Center**)[https://streaming.center].
 
