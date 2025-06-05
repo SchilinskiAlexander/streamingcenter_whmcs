@@ -119,11 +119,11 @@ jQuery(document).ready(function(){
 
     function updateVisibility() {
         var val = jQuery(watchSelector).val();
-        var checkboxes = jQuery(".form.module-settings input[type='checkbox'], input[type=text], input[type=number], select[name='packageconfigoption[2]'], select[name='packageconfigoption[6]']");
+        var nonTemplateSettins = jQuery(".form.module-settings").find("input, select").not('[name="packageconfigoption[1]"]');
         if (val === 'no_template') {
-            checkboxes.prop('disabled', false);
+            nonTemplateSettins.prop('disabled', false);
         } else {
-            checkboxes.prop('disabled', true);
+            nonTemplateSettins.prop('disabled', true);
         }
     }
 
