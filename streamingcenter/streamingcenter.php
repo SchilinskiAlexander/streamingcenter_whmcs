@@ -393,6 +393,60 @@ function streamingcenter_LoadBroadcasterTemplates($params){
     }
 }
 
+function streamingcenter_ClientArea(array $params)
+{
+    try {
+        logModuleCall('streamingcenter', __FUNCTION__, $params, "start", "start");
+        
+        // Get account details from API
+        $endpoint = "/api/v1/remote_get_details/";
+        $postData = [
+            'username' => $params['username'],
+            'password' => $params['password']
+        ];
+        
+        $response = streamingcenter_makeApiRequest($params, $endpoint, 'POST', $postData);
+        
+        $accountData = [];
+        if ($response['success']) {
+            $accountData = $response['data'];
+        }
+        
+        // Prepare template variables
+        $templateVars = [
+            'username' => $params['username'],
+            'domain' => $params['domain'],
+            'serverip' => $params['serverip'],
+            'serverport' => $params['serverport'],
+            'accountData' => $accountData,
+            'serviceSingleSignOnEnabled' => true,
+            'serviceSingleSignOnUrl' => '',
+        ];
+        
+        // Generate Single Sign-On URL if available
+        $ssoResult = streamingcenter_ServiceSingleSignOn($params);
+        if (isset($ssoResult['url'])) {
+            $templateVars['serviceSingleSignOnUrl'] = $ssoResult['url'];
+        }
+        
+        logModuleCall('streamingcenter', __FUNCTION__, "success", "success", "success");
+        
+        return [
+            'templatefile' => 'clientarea',
+            'vars' => $templateVars,
+        ];
+        
+    } catch (Exception $e) {
+        logModuleCall('streamingcenter', __FUNCTION__, $params, $e->getMessage(), $e->getTraceAsString());
+        
+        return [
+            'templatefile' => 'clientarea',
+            'vars' => [
+                'error' => 'Unable to load account information: ' . $e->getMessage(),
+            ],
+        ];
+    }
+}
 function streamingcenter_ServiceSingleSignOn(array $params)
 {
     $endpoint = "/api/v1/remote_user_login/";
@@ -408,32 +462,31 @@ function streamingcenter_ServiceSingleSignOn(array $params)
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'POST', $postData);
         
         if (!$response['success']) {
-            return [
-                'success' => false,
-                'errorMsg' => $response['error']
-            ];
+            return [];
+            // return [
+            //     'success' => false,
+            //     'errorMsg' => $response['error']
+            // ];
         }
         
         $data = $response['data'];
         if (isset($data->url)) {
             logModuleCall('streamingcenter', __FUNCTION__, "success", "redirectTo", $data->url);
             return [
-                'success' => true,
-                'redirectTo' => $data->url
+                'url' => $data->url  // Changed from 'redirectTo' to 'url'
             ];
+
         }
         
-        return [
-            'success' => false,
-            'errorMsg' => 'No redirect URL received'
-        ];
+        return [];
         
     } catch (Exception $e) {
         logModuleCall('streamingcenter', __FUNCTION__, $params, $e->getMessage(), $e->getTraceAsString());
-        return [
-            'success' => false,
-            'errorMsg' => $e->getMessage(),
-        ];
+        return [];
+        // return [
+        //     'success' => false,
+        //     'errorMsg' => $e->getMessage(),
+        // ];
     }
 }
 
