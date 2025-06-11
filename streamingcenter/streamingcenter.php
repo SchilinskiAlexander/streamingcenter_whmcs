@@ -424,7 +424,7 @@ function streamingcenter_ClientArea(array $params)
         ];
         
         // Generate Single Sign-On URL if available
-        $ssoResult = streamingcenter_ServiceSingleSignOn($params);
+        $ssoResult = streamingcenter_ServiceSingleSignOn($params, true);
         if (isset($ssoResult['url'])) {
             $templateVars['serviceSingleSignOnUrl'] = $ssoResult['url'];
         }
@@ -447,7 +447,7 @@ function streamingcenter_ClientArea(array $params)
         ];
     }
 }
-function streamingcenter_ServiceSingleSignOn(array $params)
+function streamingcenter_ServiceSingleSignOn(array $params, $from_client = false)
 {
     $endpoint = "/api/v1/remote_user_login/";
     
@@ -462,31 +462,48 @@ function streamingcenter_ServiceSingleSignOn(array $params)
         $response = streamingcenter_makeApiRequest($params, $endpoint, 'POST', $postData);
         
         if (!$response['success']) {
-            return [];
-            // return [
-            //     'success' => false,
-            //     'errorMsg' => $response['error']
-            // ];
+            if($from_client){
+                return [];
+            }
+            return [
+                'success' => false,
+                'errorMsg' => $response['error']
+            ];
         }
         
         $data = $response['data'];
         if (isset($data->url)) {
             logModuleCall('streamingcenter', __FUNCTION__, "success", "redirectTo", $data->url);
+            if($from_client){
+                // If called from client area, return redirect URL
+                return [
+                    'url' => $data->url
+                ];
+            }
             return [
-                'url' => $data->url  // Changed from 'redirectTo' to 'url'
+                'success' => true,
+                'redirectTo' => $data->url
             ];
 
         }
-        
-        return [];
+        if($from_client){
+            return [];
+        }
+        return [
+            'success' => false,
+            'errorMsg' => 'No redirect URL received'
+        ];        
         
     } catch (Exception $e) {
         logModuleCall('streamingcenter', __FUNCTION__, $params, $e->getMessage(), $e->getTraceAsString());
-        return [];
-        // return [
-        //     'success' => false,
-        //     'errorMsg' => $e->getMessage(),
-        // ];
+        if($from_client){
+            return [];
+        }
+
+        return [
+            'success' => false,
+            'errorMsg' => $e->getMessage(),
+        ];
     }
 }
 
