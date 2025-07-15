@@ -17,7 +17,7 @@
                 <div class="text-center" style="margin-bottom: 30px;">
                     <a href="{$serviceSingleSignOnUrl}" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
                         <i class="fas fa-broadcast-tower"></i>
-                        Login to the Broadcaster interface
+                        Login as Broadcaster
                     </a>
                 </div>
             {/if}
